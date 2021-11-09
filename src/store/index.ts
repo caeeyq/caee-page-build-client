@@ -1,26 +1,8 @@
-import createStore from '@/utils/vuex4'
+import { createPinia } from 'pinia'
+import { App } from 'vue'
 
-const store = createStore({
-  state: {
-    count: 1,
-  },
-  getters: {
-    getCount(state) {
-      return state.count
-    },
-  },
-  mutations: {
-    setCount(state, num) {
-      state.count = num
-    },
-  },
-  actions: {
-    getNumFormNet(ctx) {
-      setTimeout(() => {
-        ctx.commit('setCount', 50)
-      }, 2000)
-    },
-  },
-})
+export { useLoadingStore } from './loading'
 
-export default store
+export function setupStore(app: App) {
+  app.use(createPinia())
+}

@@ -2,13 +2,22 @@
   "name": "caee-page-build-client",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run lint && vite build",
-    "serve": "vite preview",
+    "dev": "vite --mode dev",
+    "dev:test": "vite --mode staging",
+    "dev:prod": "vite --mode prod",
+    "build": "npm run lint && vite build --mode prod",
+    "build:test": "npm run lint && vite build --mode staging",
+    "preview": "vite preview --port 8080",
     "lint": "eslint src/ --ext .ts,.vue,.tsx && vue-tsc --noEmit"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "@caee/strengthen-vuex": "^1.0.0",
+    "axios": "^0.24.0",
+    "element-plus": "^1.2.0-beta.2",
+    "pinia": "^2.0.2",
+    "vue": "^3.2.16",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.11.6",
@@ -19,7 +28,9 @@
     "@vue/eslint-config-typescript": "^9.0.1",
     "eslint": "^8.1.0",
     "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.43.4",
     "typescript": "^4.4.3",
+    "unplugin-element-plus": "^0.1.3",
     "vite": "^2.6.4",
     "vue-tsc": "^0.3.0"
   }

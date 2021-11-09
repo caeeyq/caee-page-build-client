@@ -6,3 +6,12 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+type EnvironmentType = 'dev' | 'test' | 'prod'
+interface ImportMetaEnv extends Readonly<Record<string, string>> {
+  readonly VITE_ENV: EnvironmentType
+  // 更多环境变量...
+}
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
