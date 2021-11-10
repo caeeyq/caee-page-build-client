@@ -37,10 +37,7 @@ const changeDog = async () => {
 
 <style scoped lang="scss">
 .home-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex-center(column);
   row-gap: 15px;
   img {
     width: 250px;

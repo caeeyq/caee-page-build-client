@@ -1,19 +1,5 @@
-import { defineStore, _ActionsTree, _GettersTree } from 'pinia'
-
-interface LoadingState {
-  requestNumber: number
-  opNames: { [key: string]: boolean }
-}
-
-interface LoadingGetter extends _GettersTree<LoadingState> {
-  isLoading: (state: LoadingState) => boolean
-  isOpLoading: (state: LoadingState) => (opName: string) => boolean
-}
-
-interface LoadingAction extends _ActionsTree {
-  startLoading: (payload?: { opName?: string }) => void
-  finishLoading: (payload?: { opName?: string }) => void
-}
+import { defineStore } from 'pinia'
+import { LoadingState, LoadingGetter, LoadingAction } from './types'
 
 export const useLoadingStore = defineStore<
   'loading',
