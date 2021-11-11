@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import '@/style/index.scss'
+
 import setupDriective from '@/directive'
 import { setupStore } from '@/store'
-import '@/style/index.scss'
 import { setupRoute } from '@/router'
+
+import App from './App.vue'
 
 async function bootstrap() {
   const app = createApp(App)
