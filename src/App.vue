@@ -1,28 +1,39 @@
 <template>
   <div class="app-wrapper">
-    <ElMenu
-      default-active="home"
-      class="app-wrapper__menu"
-      mode="horizontal"
-      router
-    >
-      <ElMenuItem index="/">首页</ElMenuItem>
-      <ElMenuItem index="demo">Dog Demo</ElMenuItem>
-    </ElMenu>
-    <RouterView></RouterView>
+    <ElContainer>
+      <ElHeader>Caee build</ElHeader>
+      <ElMain>
+        <RouterView></RouterView>
+      </ElMain>
+    </ElContainer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { ElMenu, ElMenuItem } from 'element-plus'
+import { ElContainer, ElHeader, ElMain } from 'element-plus'
 </script>
 
 <style scoped lang="scss">
 .app-wrapper {
-  @include flex-center(column);
-  .app-wrapper__menu {
-    width: 1200px;
+  .el-container {
+    height: 100vh;
+    .el-header {
+      font-weight: bold;
+      font-size: 22px;
+      border-bottom: 1px solid #dcdfe6;
+      line-height: 60px;
+    }
+    .el-footer {
+      font-size: 14px;
+      color: #fff;
+      line-height: 60px;
+      background-color: #0f1725;
+    }
+    .el-main {
+      padding: 0px;
+      flex: 1;
+    }
   }
 }
 </style>
