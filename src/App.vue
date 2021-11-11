@@ -1,46 +1,28 @@
 <template>
-  <div class="home-page">
-    <div v-loading="store.isLoading">
-      <img :src="dogimg" alt="小狗" />
-    </div>
-    <ElButton
-      :loading="store.isLoading"
-      type="primary"
-      size="small"
-      @click="changeDog"
+  <div class="app-wrapper">
+    <ElMenu
+      default-active="home"
+      class="app-wrapper__menu"
+      mode="horizontal"
+      router
     >
-      换小狗
-    </ElButton>
-    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+      <ElMenuItem index="/">首页</ElMenuItem>
+      <ElMenuItem index="demo">Dog Demo</ElMenuItem>
+    </ElMenu>
+    <RouterView></RouterView>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ElButton } from 'element-plus'
-
-import { useLoadingStore } from '@/store'
-import { getRandomDogPic } from './api/demo'
-
-import HelloWorld from '@/components/HelloWorld.vue'
-
-import vueLogo from '@/assets/logo.png'
-
-const store = useLoadingStore()
-const dogimg = ref(vueLogo)
-
-const changeDog = async () => {
-  const { message } = await getRandomDogPic()
-  dogimg.value = message
-}
+import { RouterView } from 'vue-router'
+import { ElMenu, ElMenuItem } from 'element-plus'
 </script>
 
 <style scoped lang="scss">
-.home-page {
+.app-wrapper {
   @include flex-center(column);
-  row-gap: 15px;
-  img {
-    width: 250px;
+  .app-wrapper__menu {
+    width: 1200px;
   }
 }
 </style>
