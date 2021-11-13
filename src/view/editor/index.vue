@@ -1,0 +1,86 @@
+<template>
+  <el-container class="editor-page">
+    <el-aside class="editor-page__comp-side">
+      <ShowCompsList
+        :compList="initComps"
+        @addComp="(item) => editorStore.addComp(item)"
+      />
+    </el-aside>
+    <el-container class="editor-page__center-content">
+      <div class="editor-page__draw-area">
+        <div
+          v-for="item in editorStore.components"
+          class="editor-page__item-wrapper"
+          :class="getItemWrapperClass(item)"
+          :key="item.id"
+          @click.capture.stop="selectComp(item.id)"
+        >
+          <component :is="item.name" v-bind="item.props"></component>
+        </div>
+      </div>
+    </el-container>
+    <el-aside class="editor-page__attr-side">组件属性</el-aside>
+  </el-container>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+import { useEditorStore } from '@/store'
+import { CText, ShowCompsList } from '@/components'
+import { initComps } from './initData'
+import { ComponentData } from '@/store/editor/types'
+
+export default defineComponent({
+  name: 'editor-page',
+  components: {
+    CText,
+    ShowCompsList,
+  },
+  setup() {
+    const editorStore = useEditorStore()
+
+    const selectComp = (compId: string) => {
+      editorStore.currentElement = compId
+    }
+    const getItemWrapperClass = (item: ComponentData) => {
+      return {
+        'editor-page__item-wrapper--active':
+          item.id === editorStore.currentElement,
+      }
+    }
+
+    return { editorStore, initComps, selectComp, getItemWrapperClass }
+  },
+})
+</script>
+
+<style scoped lang="scss">
+.editor-page {
+  &.el-container {
+    height: 100%;
+  }
+  .editor-page__comp-side {
+    border-right: 1px solid #dcdfe6;
+  }
+  .editor-page__attr-side {
+    border-left: 1px solid #dcdfe6;
+  }
+  .editor-page__center-content {
+    background-color: #dcdfe6;
+    .editor-page__draw-area {
+      @include translate-center;
+      background-color: #fff;
+      width: 350px;
+      height: 600px;
+      .editor-page__item-wrapper {
+        border: 2px solid transparent;
+        cursor: pointer;
+        &.editor-page__item-wrapper--active {
+          border: 2px solid blue;
+        }
+      }
+    }
+  }
+}
+</style>

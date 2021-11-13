@@ -6,6 +6,7 @@ import { setupStore } from '@/store'
 import { setupRoute } from '@/router'
 
 import App from './App.vue'
+import { setupGlobalComponents } from './components'
 
 async function bootstrap() {
   const app = createApp(App)
@@ -17,6 +18,8 @@ async function bootstrap() {
 
   // 配置全局指令
   setupDriective(app)
+
+  setupGlobalComponents(app)
 
   app.mount('#app')
 }
