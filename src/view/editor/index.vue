@@ -1,6 +1,7 @@
 <template>
   <el-container class="editor-page">
     <el-aside class="editor-page__comp-side">
+      <h2>组件列表</h2>
       <ShowCompsList
         :compList="initComps"
         @addComp="(item) => editorStore.addComp(item)"
@@ -19,7 +20,11 @@
         </div>
       </div>
     </el-container>
-    <el-aside class="editor-page__attr-side">组件属性</el-aside>
+    <el-aside class="editor-page__attr-side">
+      <h2>组件属性</h2>
+      <PropFormList :props="editorStore.currentElement?.props"></PropFormList>
+      <pre style="margin-top: 24px">{{ editorStore.currentElement }}</pre>
+    </el-aside>
   </el-container>
 </template>
 
@@ -27,7 +32,7 @@
 import { defineComponent } from 'vue'
 
 import { useEditorStore } from '@/store'
-import { CText, ShowCompsList } from '@/components'
+import { CText, ShowCompsList, PropFormList } from '@/components'
 import { initComps } from './initData'
 import { ComponentData } from '@/store/editor/types'
 
@@ -36,17 +41,18 @@ export default defineComponent({
   components: {
     CText,
     ShowCompsList,
+    PropFormList,
   },
   setup() {
     const editorStore = useEditorStore()
 
     const selectComp = (compId: string) => {
-      editorStore.currentElement = compId
+      editorStore.currentElementId = compId
     }
     const getItemWrapperClass = (item: ComponentData) => {
       return {
         'editor-page__item-wrapper--active':
-          item.id === editorStore.currentElement,
+          item.id === editorStore.currentElementId,
       }
     }
 
@@ -62,9 +68,21 @@ export default defineComponent({
   }
   .editor-page__comp-side {
     border-right: 1px solid #dcdfe6;
+    padding: 16px;
+    h2 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
   }
   .editor-page__attr-side {
     border-left: 1px solid #dcdfe6;
+    padding: 16px;
+    h2 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
   }
   .editor-page__center-content {
     background-color: #dcdfe6;

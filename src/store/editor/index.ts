@@ -1,19 +1,25 @@
 import { defineStore } from 'pinia'
-import { v4 as uuid4 } from 'uuid'
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { EditorActions, EditorState } from './types'
 import { isString } from 'lodash'
+import { v4 as uuid4 } from 'uuid'
+
+import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { EditorActions, EditorGetters, EditorState } from './types'
 
 export const useEditorStore = defineStore<
   'editorState',
   EditorState,
-  Record<string, never>,
+  EditorGetters,
   EditorActions
 >('editorState', {
   state: () => ({
-    currentElement: '',
+    currentElementId: '',
     components: [],
   }),
+  getters: {
+    currentElement(state) {
+      return state.components.find((comp) => comp.id === state.currentElementId)
+    },
+  },
   actions: {
     addComp(comp: Partial<TextComponentProps>) {
       this.components.push({
