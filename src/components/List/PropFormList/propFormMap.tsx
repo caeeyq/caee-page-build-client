@@ -3,6 +3,7 @@
  * 定义属性到form表单的转换基本信息
  */
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { VNode } from 'vue'
 
 export interface PropForm {
   /** 表单名称 */
@@ -25,8 +26,9 @@ export interface PropForm {
   subValuePropName?: string
   /** 二级表单信息数组 */
   options?: {
-    text: string | number | boolean
+    text: string | number | boolean | VNode
     value: string | number | boolean
+    extraProps: Record<string, any>
   }[]
 }
 
@@ -42,6 +44,23 @@ export interface RealPropForm extends PropForm {
 export type PropsForms = {
   [key in keyof TextComponentProps]?: PropForm
 }
+
+const fontList = [
+  { text: '无', value: '' },
+  { text: '宋体', value: '"SimSun","STSong"' },
+  { text: '黑体', value: '"SimHei","STHeiti"' },
+  { text: '楷体', value: '"KaiTi","STKaiti"' },
+  { text: '仿宋', value: '"FangSong","STFangsong"' },
+]
+const fontFamilyOptions = fontList.map((item) => {
+  return {
+    value: item.value,
+    text: (
+      <span style={{ fontFamily: item.value }}>{item.text}</span>
+    ) as VNode,
+    extraProps: { value: item.value, label: item.text },
+  }
+})
 
 export const propsFormMap: PropsForms = {
   text: {
@@ -82,21 +101,15 @@ export const propsFormMap: PropsForms = {
     subComponent: 'el-radio-button',
     subValuePropName: 'label',
     options: [
-      { value: 'left', text: '左' },
-      { value: 'center', text: '中' },
-      { value: 'right', text: '右' },
+      { value: 'left', text: '左', extraProps: { label: 'left' } },
+      { value: 'center', text: '中', extraProps: { label: 'center' } },
+      { value: 'right', text: '右', extraProps: { label: 'right' } },
     ],
   },
   fontFamily: {
     label: '字体',
     component: 'el-select',
     subComponent: 'el-option',
-    options: [
-      { text: '无', value: '' },
-      { text: '宋体', value: '"SimSun","STSong"' },
-      { text: '黑体', value: '"SimHei","STHeiti"' },
-      { text: '楷体', value: '"KaiTi","STKaiti"' },
-      { text: '仿宋', value: '"FangSong","STFangsong"' },
-    ],
+    options: fontFamilyOptions,
   },
 }

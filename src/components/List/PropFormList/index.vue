@@ -21,10 +21,9 @@
               v-for="option in formItem.options"
               :key="option.value"
               :is="formItem.subComponent"
-              :label="option.text"
-              :[formItem.subValuePropName]="option.value"
+              v-bind="option.extraProps"
             >
-              {{ option.text }}
+              <RenderJsx :content="option.text" />
             </component>
           </template>
         </component>
@@ -37,9 +36,11 @@
 import { defineComponent, PropType, computed } from 'vue'
 import { reduce } from 'lodash-es'
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { RenderJsx } from '@/components'
 import { propsFormMap, RealPropForm } from './propFormMap'
 export default defineComponent({
   name: 'prop-form',
+  components: { RenderJsx },
   props: {
     props: {
       type: Object as PropType<Partial<TextComponentProps>>,
