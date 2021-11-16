@@ -1,4 +1,7 @@
-import { CommonComponentProps, commonDefaultProps } from '@/components/BusinessComps/types'
+import {
+  CommonComponentProps,
+  commonDefaultProps,
+} from '@/components/BusinessComps/types'
 import { without } from 'lodash-es'
 import { transformObjToProps } from '@/utils/props'
 
@@ -12,7 +15,7 @@ export interface TextComponentProps extends CommonComponentProps {
   fontWeight: string
   fontStyle: string
   textDecoration: string
-  lineHeight: number
+  lineHeight: string
   textAlign: string
   color: string
   backgroundColor: string
@@ -26,7 +29,7 @@ export const textDefaultObj: TextComponentProps = {
   fontWeight: 'normal',
   fontStyle: 'normal',
   textDecoration: 'none',
-  lineHeight: 1,
+  lineHeight: '1',
   textAlign: 'left',
   color: '#000000',
   backgroundColor: '',

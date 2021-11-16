@@ -2,6 +2,9 @@ import { _ActionsTree, _GettersTree } from 'pinia'
 
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type KeyValue<T = any> = { key: string; value: T }
+
 export interface ComponentData {
   id: string
   name: string
@@ -25,6 +28,9 @@ export interface EditorActions extends _ActionsTree {
   addComp: (comp: Partial<TextComponentProps>) => void
   /** 删除编辑区域指定组件 */
   deleteComp: DeleteComp
+  /** 更新当前组件的值 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateCurrentComp: (e: KeyValue) => void
 }
 
 export interface EditorGetters extends _GettersTree<EditorState> {

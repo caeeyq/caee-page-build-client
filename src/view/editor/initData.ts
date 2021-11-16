@@ -19,7 +19,7 @@ export const initComps: Partial<TextComponentProps>[] = [
     tag: 'p',
     text: '正文文字',
     fontSize: '16px',
-    lineHeight: 1.2,
+    lineHeight: '1.2',
   },
   {
     tag: 'a',
@@ -32,7 +32,7 @@ export const initComps: Partial<TextComponentProps>[] = [
     text: '示例按钮',
     width: '78px',
     height: '24px',
-    lineHeight: 1.2,
+    lineHeight: '1.2',
     borderRadius: '2px',
     backgroundColor: '#0288d1',
     color: '#fff',

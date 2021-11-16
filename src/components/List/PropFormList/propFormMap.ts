@@ -9,16 +9,16 @@ export interface PropForm {
   label?: string
   /** 一级表单组件名称 */
   component: string
-  /** 一级表单值 */
-  value?: string
   /** 一级表单值的属性名称 */
   valuePropName?: string
-  /** 一级表单值的值变化事件名 */
+  /** 表单值的值变化事件名 */
   emitName?: string
   /** 一级表单的其他属性 */
   extraProps?: Record<string, any>
   /** 初始化值转换函数 */
   initValue?: (v: any) => any
+  /** 输出值转换函数 */
+  outInitValue?: (v: any) => any
   /** 二级表单组件 */
   subComponent?: string
   /** 二级表单值的属性名称 */
@@ -30,6 +30,15 @@ export interface PropForm {
   }[]
 }
 
+export interface RealPropForm extends PropForm {
+  /** 一级表单值 */
+  value: string
+  valuePropName: string
+  emitName: string
+  subValuePropName: string
+  emits: Record<string, (e: any) => void>
+}
+
 export type PropsForms = {
   [key in keyof TextComponentProps]?: PropForm
 }
@@ -38,6 +47,7 @@ export const propsFormMap: PropsForms = {
   text: {
     label: '内容',
     component: 'el-input',
+    emitName: 'input',
     extraProps: {
       type: 'textarea',
       placeholder: 'Please input',
@@ -48,6 +58,7 @@ export const propsFormMap: PropsForms = {
     label: '字体大小',
     component: 'el-input-number',
     initValue: (v: string) => parseInt(v),
+    outInitValue: (v: number) => `${v}px`,
     extraProps: {
       min: 12,
       max: 42,
@@ -56,6 +67,9 @@ export const propsFormMap: PropsForms = {
   lineHeight: {
     label: '行高',
     component: 'el-slider',
+    emitName: 'input',
+    initValue: (v: string) => parseFloat(v),
+    outInitValue: (v: number) => `${v}`,
     extraProps: {
       min: 1,
       max: 3,

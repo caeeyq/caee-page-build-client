@@ -12,9 +12,9 @@
       <el-col :span="18">
         <component
           :is="formItem.component"
-          :[formItem.valuePropName!]="formItem.value"
-          @[formItem.emitName!]="valueChange"
+          :[formItem.valuePropName]="formItem.value"
           v-bind="formItem.extraProps"
+          v-on="formItem.emits"
         >
           <template v-if="formItem.subComponent">
             <component
@@ -22,7 +22,7 @@
               :key="option.value"
               :is="formItem.subComponent"
               :label="option.text"
-              :[formItem.subValuePropName!]="option.value"
+              :[formItem.subValuePropName]="option.value"
             >
               {{ option.text }}
             </component>
@@ -37,7 +37,7 @@
 import { defineComponent, PropType, computed } from 'vue'
 import { reduce } from 'lodash-es'
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { propsFormMap, PropsForms } from './propFormMap'
+import { propsFormMap, RealPropForm } from './propFormMap'
 export default defineComponent({
   name: 'prop-form',
   props: {
@@ -56,27 +56,34 @@ export default defineComponent({
           if (formItem) {
             const {
               initValue,
+              outInitValue,
               valuePropName = 'model-value',
               subValuePropName = 'value',
               emitName = 'change',
             } = formItem
-            formItem.value = initValue ? initValue(curValue) : curValue
-            formItem.valuePropName = valuePropName
-            formItem.subValuePropName = subValuePropName
-            formItem.emitName = emitName
-            res[newKey] = formItem
+            const realFormItem: RealPropForm = {
+              ...formItem,
+              value: initValue ? initValue(curValue) : curValue,
+              valuePropName,
+              subValuePropName,
+              emitName,
+              emits: {
+                [emitName]: (e) => {
+                  const value = outInitValue ? outInitValue(e) : e
+                  const emitValue = { key: newKey, value }
+                  ctx.emit('change', emitValue)
+                },
+              },
+            }
+            res[newKey] = realFormItem
           }
           return res
         },
-        {} as Required<PropsForms>
+        {} as Record<keyof TextComponentProps, RealPropForm>
       )
     })
 
-    const valueChange = (v: any) => {
-      ctx.emit('change', v)
-    }
-
-    return { propsForms, valueChange }
+    return { propsForms }
   },
 })
 </script>

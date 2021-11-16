@@ -22,7 +22,12 @@
     </el-container>
     <el-aside class="editor-page__attr-side">
       <h2>组件属性</h2>
-      <PropFormList :props="editorStore.currentElement?.props"></PropFormList>
+      <template v-if="editorStore.currentElement">
+        <PropFormList
+          :props="editorStore.currentElement.props"
+          @change="handleChange"
+        />
+      </template>
       <pre style="margin-top: 24px">{{ editorStore.currentElement }}</pre>
     </el-aside>
   </el-container>
@@ -34,7 +39,7 @@ import { defineComponent } from 'vue'
 import { useEditorStore } from '@/store'
 import { CText, ShowCompsList, PropFormList } from '@/components'
 import { initComps } from './initData'
-import { ComponentData } from '@/store/editor/types'
+import { ComponentData, KeyValue } from '@/store/editor/types'
 
 export default defineComponent({
   name: 'editor-page',
@@ -55,8 +60,17 @@ export default defineComponent({
           item.id === editorStore.currentElementId,
       }
     }
+    const handleChange = (e: KeyValue) => {
+      editorStore.updateCurrentComp(e)
+    }
 
-    return { editorStore, initComps, selectComp, getItemWrapperClass }
+    return {
+      editorStore,
+      initComps,
+      selectComp,
+      getItemWrapperClass,
+      handleChange,
+    }
   },
 })
 </script>
