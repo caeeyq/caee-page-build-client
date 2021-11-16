@@ -1,11 +1,6 @@
 <template>
   <div class="prop-form">
-    <el-row
-      v-for="(formItem, key) in propsForms"
-      :key="key"
-      align="middle"
-      :gutter="8"
-    >
+    <el-row v-for="(formItem, key) in propsForms" :key="key" :gutter="8">
       <el-col :span="6" class="prop-form__label">
         <span>{{ formItem.label }}</span>
       </el-col>
@@ -99,6 +94,7 @@ export default defineComponent({
   }
   .el-col {
     &.prop-form__label {
+      line-height: 2.4;
       text-align: left;
       font-size: 14px;
       color: var(--el-text-color-regular);

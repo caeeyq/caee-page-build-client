@@ -106,10 +106,14 @@ export default defineComponent({
       width: 350px;
       height: 600px;
       .editor-page__item-wrapper {
-        border: 2px solid transparent;
         cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        &:hover {
+          border: 1px dashed grey;
+        }
         &.editor-page__item-wrapper--active {
-          border: 2px solid blue;
+          border: 1px solid blue;
         }
       }
     }

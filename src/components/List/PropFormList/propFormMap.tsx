@@ -84,7 +84,7 @@ export const propsFormMap: PropsForms = {
     },
   },
   lineHeight: {
-    label: '行高',
+    label: '行距',
     component: 'el-slider',
     emitName: 'input',
     initValue: (v: string) => parseFloat(v),
@@ -93,6 +93,9 @@ export const propsFormMap: PropsForms = {
       min: 1,
       max: 3,
       step: 0.1,
+      marks: {
+        2: '2倍行距',
+      },
     },
   },
   textAlign: {
@@ -126,6 +129,38 @@ export const propsFormMap: PropsForms = {
         400: '正常',
         700: '加粗',
       },
+    },
+  },
+  color: {
+    label: '颜色',
+    component: 'el-color-picker',
+    emitName: 'active-change',
+    extraProps: {
+      predefine: [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+      ],
+    },
+  },
+  backgroundColor: {
+    label: '背景色',
+    component: 'el-color-picker',
+    emitName: 'active-change',
+    extraProps: {
+      predefine: [
+        '#ff4500',
+        '#ff8c00',
+        '#ffd700',
+        '#90ee90',
+        '#00ced1',
+        '#1e90ff',
+        '#c71585',
+      ],
     },
   },
 }

@@ -9,6 +9,8 @@ export const initComps: Partial<TextComponentProps>[] = [
     textAlign: 'left',
     fontFamily: '"SimSun","STSong"',
     lineHeight: '1',
+    color: "#000000",
+    backgroundColor: "#FFFFFF"
   },
   {
     tag: 'h2',
