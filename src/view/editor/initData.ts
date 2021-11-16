@@ -5,15 +5,16 @@ export const initComps: Partial<TextComponentProps>[] = [
     tag: 'h1',
     text: '一级标题',
     fontSize: '30px',
-    fontWeight: 'bold',
+    fontWeight: '600',
     textAlign: 'left',
     fontFamily: '"SimSun","STSong"',
+    lineHeight: '1',
   },
   {
     tag: 'h2',
     text: '二级标题',
     fontSize: '24px',
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   {
     tag: 'p',

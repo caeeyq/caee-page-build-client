@@ -112,4 +112,20 @@ export const propsFormMap: PropsForms = {
     subComponent: 'el-option',
     options: fontFamilyOptions,
   },
+  fontWeight: {
+    label: '字重',
+    component: 'el-slider',
+    emitName: 'input',
+    initValue: (v: string) => parseInt(v),
+    outInitValue: (v: number) => `${v}`,
+    extraProps: {
+      min: 100,
+      max: 900,
+      step: 100,
+      marks: {
+        400: '正常',
+        700: '加粗',
+      },
+    },
+  },
 }
