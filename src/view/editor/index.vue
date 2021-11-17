@@ -2,6 +2,11 @@
   <el-container class="editor-page">
     <el-aside class="editor-page__comp-side">
       <h2>组件列表</h2>
+      <Uploader
+        action="http://127.0.0.1:7001/upload"
+        v-model:fileUrl="picUrl"
+      />
+      <img v-if="picUrl" :src="picUrl" alt="" srcset="" />
       <ShowCompsList
         :compList="initComps"
         @addComp="(item) => editorStore.addComp(item)"
@@ -34,10 +39,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import { useEditorStore } from '@/store'
-import { CText, ShowCompsList, PropFormList } from '@/components'
+import { CText, ShowCompsList, PropFormList, Uploader } from '@/components'
 import { initComps } from './initData'
 import { ComponentData, KeyValue } from '@/store/editor/types'
 
@@ -47,8 +52,10 @@ export default defineComponent({
     CText,
     ShowCompsList,
     PropFormList,
+    Uploader,
   },
   setup() {
+    const picUrl = ref('')
     const editorStore = useEditorStore()
 
     const selectComp = (compId: string) => {
@@ -70,6 +77,7 @@ export default defineComponent({
       selectComp,
       getItemWrapperClass,
       handleChange,
+      picUrl,
     }
   },
 })

@@ -9,6 +9,7 @@ export { default as ShowCompsList } from './List/ShowCompsList/index.vue'
 export { default as PropFormList } from './List/PropFormList/index.vue'
 
 export { default as RoundCheckBox } from './FormItem/RoundCheckBox/index.vue'
+export { default as Uploader } from './FormItem/Uploader/index.vue'
 
 export function setupGlobalComponents(app: App) {
   app.use(ElementPlus, { size: 'small' })
