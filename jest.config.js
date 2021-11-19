@@ -6,4 +6,5 @@ module.exports = {
     '^.+\\.(t|j)sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['vue', 'js', 'json', 'jsx', 'ts', 'tsx', 'node'],
+  testEnvironment: 'jsdom'
 }

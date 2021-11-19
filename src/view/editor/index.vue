@@ -3,7 +3,7 @@
     <el-aside class="editor-page__comp-side">
       <h2>组件列表</h2>
       <Uploader
-        action="http://127.0.0.1:7001/upload"
+        action="http://caee-cli.edityj.top/upload"
         v-model:fileUrl="picUrl"
       />
       <img v-if="picUrl" :src="picUrl" alt="" srcset="" />

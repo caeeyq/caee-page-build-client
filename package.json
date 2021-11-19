@@ -5,6 +5,8 @@
     "dev": "vite --mode dev",
     "dev:test": "vite --mode staging",
     "dev:prod": "vite --mode prod",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "npm run lint && vite build --mode prod",
     "build:test": "npm run lint && vite build --mode staging",
     "preview": "vite preview --port 8080",
@@ -20,6 +22,7 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
     "@testing-library/jest-dom": "^5.15.0",
     "@types/jest": "^27.0.2",
     "@types/lodash-es": "^4.17.5",
@@ -35,6 +38,7 @@
     "babel-jest": "^27.3.1",
     "eslint": "^8.1.0",
     "eslint-plugin-vue": "^8.0.3",
+    "flush-promises": "^1.0.2",
     "jest": "^27.3.1",
     "sass": "^1.43.4",
     "ts-jest": "^27.0.7",

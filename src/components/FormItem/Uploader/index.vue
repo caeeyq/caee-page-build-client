@@ -1,8 +1,8 @@
 <template>
   <div class="caee-uploader">
-    <el-button @click="triggleUpload">{{ uploadStateText }}</el-button>
+    <button @click="triggleUpload">{{ uploadStateText }}</button>
     <input
-      class="caee-uploader__fileinput"
+      style="display: none"
       ref="fileInput"
       type="file"
       @change="handleFileChange"
@@ -67,6 +67,7 @@ const handleFileChange = (e: Event) => {
         emits('update:fileUrl', res.data.download_url)
       })
       .catch((err: AxiosError) => {
+        console.log(err)
         uploadState.value = 'error'
         console.error(err)
       })
@@ -76,8 +77,5 @@ const handleFileChange = (e: Event) => {
 
 <style lang="scss" scoped>
 .caee-uploader {
-  .caee-uploader__fileinput {
-    display: none;
-  }
 }
 </style>
