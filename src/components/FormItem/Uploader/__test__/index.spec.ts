@@ -22,7 +22,14 @@ describe('测试组件Uploader', () => {
     expect(wrapper.get('input').isVisible()).toBeFalsy()
   })
   it('2.上传成功过程能正确展示', async () => {
-    mockAxios.post.mockResolvedValueOnce({ data: { download_url: 'test-url' } })
+    mockAxios.post.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: { download_url: 'test-url' } })
+          })
+        })
+    )
     const fileInput = wrapper.get('input').element as HTMLInputElement
     const fileList = [testFile] as unknown as FileList
     Object.defineProperty(fileInput, 'files', {
@@ -36,7 +43,12 @@ describe('测试组件Uploader', () => {
     expect(wrapper.get('button').text()).toBe('上传成功')
   })
   it('3.上传失败过程能正确展示', async () => {
-    mockAxios.post.mockRejectedValueOnce({ status: 'error' })
+    mockAxios.post.mockImplementationOnce(
+      () =>
+        new Promise((_, reject) => {
+          setTimeout(reject)
+        })
+    )
     await wrapper.get('input').trigger('change')
     expect(mockAxios.post).toHaveBeenCalledTimes(2)
     expect(wrapper.get('button').text()).toBe('上传中')
