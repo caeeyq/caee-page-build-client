@@ -39,8 +39,16 @@ describe('测试组件Uploader', () => {
     await wrapper.get('input').trigger('change')
     expect(mockAxios.post).toHaveBeenCalledTimes(1)
     expect(wrapper.get('button').text()).toBe('上传中')
+    expect(wrapper.get('button').attributes()).toHaveProperty('disabled')
+    expect(wrapper.findAll('li').length).toBe(1)
+    const lastChild = wrapper.find('li:last-child')
+    expect(lastChild.classes()).toContain('caee-uploader__list-item--loading')
     await flushPromises()
-    expect(wrapper.get('button').text()).toBe('上传成功')
+    expect(wrapper.get('button').text()).toBe('点击上传')
+    expect(lastChild.classes()).toContain('caee-uploader__list-item--success')
+    expect(wrapper.get('.caee-uploader__list-item-name').text()).toBe(
+      testFile.name
+    )
   })
   it('3.上传失败过程能正确展示', async () => {
     mockAxios.post.mockImplementationOnce(
@@ -52,7 +60,14 @@ describe('测试组件Uploader', () => {
     await wrapper.get('input').trigger('change')
     expect(mockAxios.post).toHaveBeenCalledTimes(2)
     expect(wrapper.get('button').text()).toBe('上传中')
+    expect(wrapper.get('button').attributes()).toHaveProperty('disabled')
+    expect(wrapper.findAll('li').length).toBe(2)
+    const lastChild = wrapper.find('li:last-child')
+    expect(lastChild.classes()).toContain('caee-uploader__list-item--loading')
     await flushPromises()
-    expect(wrapper.get('button').text()).toBe('上传失败')
+    expect(wrapper.get('button').text()).toBe('点击上传')
+    expect(lastChild.classes()).toContain('caee-uploader__list-item--error')
+    await wrapper.get('.caee-uploader__del-icon').trigger('click')
+    expect(wrapper.findAll('li').length).toBe(1)
   })
 })

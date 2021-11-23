@@ -1,19 +1,34 @@
 <template>
   <div class="caee-uploader">
-    <button @click="triggleUpload">{{ uploadStateText }}</button>
+    <button @click="triggleUpload" :disabled="isLoading">
+      {{ isLoading ? '上传中' : '点击上传' }}
+    </button>
     <input
       style="display: none"
       ref="fileInput"
       type="file"
       @change="handleFileChange"
     />
+    <ul>
+      <li
+        v-for="file in fileList"
+        :key="file.uuid"
+        :class="`caee-uploader__list-item caee-uploader__list-item--${file.status}`"
+      >
+        <span class="caee-uploader__list-item-name">{{ file.name }}</span>
+        <button @click="delFile(file)" class="caee-uploader__del-icon">
+          删除
+        </button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import axios, { AxiosError, AxiosResponse } from 'axios'
-import { computed, ref } from 'vue'
-import { UploadResp, UploadState } from './types'
+import axios, { AxiosResponse } from 'axios'
+import { computed, reactive, ref } from 'vue'
+import { v4 as uuidv4 } from 'uuid'
+import { FileItem, UploadResp } from './types'
 
 const props = withDefaults(
   defineProps<{
@@ -30,15 +45,11 @@ const emits = defineEmits<{
 }>()
 
 const fileInput = ref<null | HTMLInputElement>(null)
-const uploadState = ref<UploadState>('ready')
-const stateMap: Record<UploadState, string> = {
-  ready: '点击上传',
-  success: '上传成功',
-  loading: '上传中',
-  error: '上传失败',
-}
+const fileList = ref<FileItem[]>([])
 
-const uploadStateText = computed(() => stateMap[uploadState.value])
+const isLoading = computed(() =>
+  fileList.value.some((file) => file.status === 'loading')
+)
 
 const triggleUpload = () => {
   if (fileInput.value) {
@@ -50,9 +61,16 @@ const handleFileChange = (e: Event) => {
   const files = target.files
   if (files) {
     const uploadFile = files[0]
+    const fileItem = reactive<FileItem>({
+      name: uploadFile.name,
+      uuid: uuidv4(),
+      size: uploadFile.size,
+      status: 'loading',
+      row: uploadFile,
+    })
+    fileList.value.push(fileItem)
     const formData = new FormData()
     formData.append(uploadFile.name, uploadFile)
-    uploadState.value = 'loading'
     axios
       .post<AxiosResponse<UploadResp>>(props.action, formData, {
         headers: {
@@ -60,22 +78,38 @@ const handleFileChange = (e: Event) => {
         },
       })
       .then((res) => {
-        uploadState.value = 'success'
+        fileItem.status = 'success'
+        emits('update:fileUrl', res.data.download_url)
+      })
+      .catch(() => {
+        fileItem.status = 'error'
+      })
+      .finally(() => {
         if (fileInput.value) {
           fileInput.value.value = ''
         }
-        emits('update:fileUrl', res.data.download_url)
-      })
-      .catch((err: AxiosError) => {
-        console.log(err)
-        uploadState.value = 'error'
-        console.error(err)
       })
   }
+}
+const delFile = (file: FileItem) => {
+  fileList.value = fileList.value.filter(
+    (fileItem) => fileItem.uuid !== file.uuid
+  )
 }
 </script>
 
 <style lang="scss" scoped>
 .caee-uploader {
+  .caee-uploader__list-item {
+    &.caee-uploader__list-item--success {
+      color: green;
+    }
+    &.caee-uploader__list-item--loading {
+      color: yellow;
+    }
+    &.caee-uploader__list-item--error {
+      color: red;
+    }
+  }
 }
 </style>
