@@ -1,8 +1,20 @@
 <template>
   <div class="caee-uploader">
-    <el-button @click="triggleUpload" :disabled="isLoading">
-      {{ isLoading ? '上传中' : '点击上传' }}
-    </el-button>
+    <div class="caee-uploader__upload-area" @click="triggleUpload">
+      <slot v-if="isLoading" name="loading">
+        <el-button disabled> 上传中 </el-button>
+      </slot>
+      <slot
+        v-else-if="lastFileData && lastFileData.status === 'success'"
+        name="uploaded"
+      >
+        <el-button> 点击上传 </el-button>
+      </slot>
+      <slot v-else name="default">
+        <el-button> 点击上传 </el-button>
+      </slot>
+    </div>
+
     <input
       style="display: none"
       ref="fileInput"
@@ -35,18 +47,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { FileItem, UploadResp } from './types'
 import { Delete } from '@element-plus/icons'
 
-const props = withDefaults(
-  defineProps<{
-    action: string
-    fileUrl?: string
-  }>(),
-  {
-    fileUrl: '',
-  }
-)
-
-const emits = defineEmits<{
-  (e: 'update:fileUrl', url: string): void
+const props = defineProps<{
+  action: string
 }>()
 
 const fileInput = ref<null | HTMLInputElement>(null)
@@ -55,6 +57,16 @@ const fileList = ref<FileItem[]>([])
 const isLoading = computed(() =>
   fileList.value.some((file) => file.status === 'loading')
 )
+const lastFileData = computed(() => {
+  const lastFile = fileList.value[fileList.value.length - 1]
+  if (lastFile && lastFile.status === 'success') {
+    return {
+      status: lastFile.status,
+      respData: lastFile.resp,
+    }
+  }
+  return false
+})
 
 const triggleUpload = () => {
   if (fileInput.value) {
@@ -84,7 +96,7 @@ const handleFileChange = (e: Event) => {
       })
       .then((res) => {
         fileItem.status = 'success'
-        emits('update:fileUrl', res.data.download_url)
+        fileItem.resp = res.data
       })
       .catch(() => {
         fileItem.status = 'error'

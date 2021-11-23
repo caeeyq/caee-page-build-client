@@ -1,24 +1,31 @@
-import { mount, VueWrapper, flushPromises } from '@vue/test-utils'
+import { shallowMount, VueWrapper, flushPromises } from '@vue/test-utils'
 import axios, { AxiosStatic } from 'axios'
 import Uploader from '../index.vue'
 
 jest.mock('axios')
 const mockAxios = axios as jest.Mocked<AxiosStatic>
+const mockComponents = {
+  'el-button': { template: '<button><slot></slot></button>' },
+  'el-icon': { template: '<i><slot></slot></i>' },
+}
+
+const testFile = new File(['xyz'], 'test.png', { type: 'image/png' })
+function setInputValue(input: HTMLInputElement) {
+  const fileList = [testFile] as unknown as FileList
+  Object.defineProperty(input, 'files', {
+    value: fileList,
+    writable: false,
+  })
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let wrapper: VueWrapper<any>
-
-const testFile = new File(['xyz'], 'test.png', { type: 'image/png' })
-
 describe('测试组件Uploader', () => {
   beforeAll(() => {
-    wrapper = mount(Uploader, {
+    wrapper = shallowMount(Uploader, {
       props: { action: 'test.url' },
       global: {
-        components: {
-          'el-button': { template: '<button><slot></slot></button>' },
-          'el-icon': { template: '<i><slot></slot></i>' },
-        },
+        stubs: mockComponents,
       },
     })
   })
@@ -37,11 +44,7 @@ describe('测试组件Uploader', () => {
         })
     )
     const fileInput = wrapper.get('input').element as HTMLInputElement
-    const fileList = [testFile] as unknown as FileList
-    Object.defineProperty(fileInput, 'files', {
-      value: fileList,
-      writable: false,
-    })
+    setInputValue(fileInput)
     await wrapper.get('input').trigger('change')
     expect(mockAxios.post).toHaveBeenCalledTimes(1)
     expect(wrapper.get('button').text()).toBe('上传中')
@@ -75,5 +78,35 @@ describe('测试组件Uploader', () => {
     expect(lastChild.classes()).toContain('caee-uploader__list-item--error')
     await wrapper.get('.caee-uploader__del-icon').trigger('click')
     expect(wrapper.findAll('li').length).toBe(1)
+  })
+  it.only('4. slot插槽能正常工作', async () => {
+    mockAxios.post.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ data: { download_url: 'test-url.com' } })
+          })
+        })
+    )
+    const wrapper = shallowMount(Uploader, {
+      props: { action: 'test.url' },
+      global: {
+        stubs: mockComponents,
+      },
+      slots: {
+        default: '<button class="custom-button">click-up</button>',
+        loading: '<div class="custom-loading">loading</div>',
+        uploaded: `<template #uploaded="{ uploadedData }">
+          <div class="custom-result">{{ uploadedData.download_url }}</div>
+        </template>`,
+      },
+    })
+    const fileInput = wrapper.get('input').element as HTMLInputElement
+    setInputValue(fileInput)
+    expect(wrapper.get('.custom-button').text()).toBe('click-up')
+    await wrapper.get('input').trigger('change')
+    expect(wrapper.get('.custom-loading').text()).toBe('loading')
+    await flushPromises()
+    expect(wrapper.get('.custom-result').text()).toBe('test-url.com')
   })
 })

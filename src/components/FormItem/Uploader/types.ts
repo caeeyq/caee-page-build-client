@@ -5,10 +5,11 @@ export interface UploadResp {
   download_url: string
 }
 
-export interface FileItem {
+export interface FileItem<R = UploadResp> {
   uuid: string
   name: string
   size: number
   status: UploadState
   row: File
+  resp?: R
 }
