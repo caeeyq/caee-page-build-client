@@ -14,6 +14,7 @@ export default defineConfig({
       scss: {
         additionalData: `
           @use "@/style/tools/_index.scss" as *;
+          @use "@/style/settings/_index.scss" as *;
         `,
       },
       less: {

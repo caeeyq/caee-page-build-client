@@ -1,4 +1,4 @@
-import { shallowMount, VueWrapper, flushPromises } from '@vue/test-utils'
+import { mount, VueWrapper, flushPromises } from '@vue/test-utils'
 import axios, { AxiosStatic } from 'axios'
 import Uploader from '../index.vue'
 
@@ -12,8 +12,14 @@ const testFile = new File(['xyz'], 'test.png', { type: 'image/png' })
 
 describe('测试组件Uploader', () => {
   beforeAll(() => {
-    wrapper = shallowMount(Uploader, {
+    wrapper = mount(Uploader, {
       props: { action: 'test.url' },
+      global: {
+        components: {
+          'el-button': { template: '<button><slot></slot></button>' },
+          'el-icon': { template: '<i><slot></slot></i>' },
+        },
+      },
     })
   })
   it('1.上传前能正确渲染组件', () => {

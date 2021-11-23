@@ -1,8 +1,8 @@
 <template>
   <div class="caee-uploader">
-    <button @click="triggleUpload" :disabled="isLoading">
+    <el-button @click="triggleUpload" :disabled="isLoading">
       {{ isLoading ? '上传中' : '点击上传' }}
-    </button>
+    </el-button>
     <input
       style="display: none"
       ref="fileInput"
@@ -16,9 +16,13 @@
         :class="`caee-uploader__list-item caee-uploader__list-item--${file.status}`"
       >
         <span class="caee-uploader__list-item-name">{{ file.name }}</span>
-        <button @click="delFile(file)" class="caee-uploader__del-icon">
-          删除
-        </button>
+        <el-icon
+          class="caee-uploader__del-icon"
+          @click="delFile(file)"
+          color="#f56c6c"
+        >
+          <Delete />
+        </el-icon>
       </li>
     </ul>
   </div>
@@ -29,6 +33,7 @@ import axios, { AxiosResponse } from 'axios'
 import { computed, reactive, ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { FileItem, UploadResp } from './types'
+import { Delete } from '@element-plus/icons'
 
 const props = withDefaults(
   defineProps<{
@@ -101,14 +106,22 @@ const delFile = (file: FileItem) => {
 <style lang="scss" scoped>
 .caee-uploader {
   .caee-uploader__list-item {
+    font-size: 14px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     &.caee-uploader__list-item--success {
-      color: green;
+      color: $color-success;
     }
     &.caee-uploader__list-item--loading {
-      color: yellow;
+      color: $color-warning;
     }
     &.caee-uploader__list-item--error {
-      color: red;
+      color: $color-danger;
+    }
+    .caee-uploader__del-icon {
+      cursor: pointer;
     }
   }
 }
