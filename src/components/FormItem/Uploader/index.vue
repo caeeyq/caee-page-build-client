@@ -82,7 +82,7 @@ const props = withDefaults(
 )
 
 const emits = defineEmits<{
-  (e: 'success', respData: UploadResp): void
+  (e: 'success', respData: FileItem): void
 }>()
 
 const { fileInput, triggleUpload, clearFileInput } = useFileInput()
@@ -103,7 +103,7 @@ const postFile = async (formData: FormData, fileItem: FileItem) => {
     .then((res) => {
       fileItem.status = 'success'
       fileItem.resp = res.data
-      emits('success', res.data)
+      emits('success', fileItem)
     })
     .catch(() => {
       fileItem.status = 'error'

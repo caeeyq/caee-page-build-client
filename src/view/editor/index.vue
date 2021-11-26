@@ -87,7 +87,7 @@ const handleChange = (e: KeyValue) => {
     .editor-page__draw-area {
       @include translate-center;
       background-color: #fff;
-      width: 350px;
+      width: 352px;
       height: 600px;
       overflow-y: hidden;
       .editor-page__item-wrapper {

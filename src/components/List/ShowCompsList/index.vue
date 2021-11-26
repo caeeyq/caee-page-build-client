@@ -16,8 +16,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Uploader } from '@/components'
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { UploadResp } from '@/components/FormItem/Uploader/types'
+import { FileItem } from '@/components/FormItem/Uploader/types'
 import { ComponentData } from '@/store/editor/types'
+import { getImageDimensions } from '@/utils/file'
 
 defineProps<{
   compList: Partial<TextComponentProps>[]
@@ -27,13 +28,14 @@ const emits = defineEmits<{
   (e: 'addComp', item: ComponentData): void
 }>()
 
-const addImage = (respData: UploadResp) => {
+const addImage = async (fileItem: FileItem) => {
+  const { width } = await getImageDimensions(fileItem.row)
   const resData: ComponentData = {
     id: uuidv4(),
     name: 'c-image',
     props: {
-      src: respData.download_url,
-      width: '100%'
+      src: fileItem.resp?.download_url,
+      width: `${width > 350 ? 350 : width}px`,
     },
   }
   emits('addComp', resData)
