@@ -2,6 +2,7 @@
 /**
  * 定义属性到form表单的转换基本信息
  */
+import { ImageComponentProps } from '@/components/BusinessComps/CImage/types'
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
 import { VNode } from 'vue'
 
@@ -42,7 +43,7 @@ export interface RealPropForm extends PropForm {
 }
 
 export type PropsForms = {
-  [key in keyof TextComponentProps]?: PropForm
+  [key in keyof TextComponentProps & ImageComponentProps]?: PropForm
 }
 
 const fontList = [
@@ -162,5 +163,10 @@ export const propsFormMap: PropsForms = {
         '#c71585',
       ],
     },
+  },
+  src: {
+    label: '图片',
+    component: 'c-image-process',
+    valuePropName: 'value',
   },
 }
