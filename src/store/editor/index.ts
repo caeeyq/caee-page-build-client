@@ -1,9 +1,13 @@
 import { defineStore } from 'pinia'
-import { cloneDeep, isString } from 'lodash'
-import { v4 as uuid4 } from 'uuid'
+import { isString } from 'lodash'
 
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { EditorActions, EditorGetters, EditorState } from './types'
+import {
+  ComponentData,
+  EditorActions,
+  EditorGetters,
+  EditorState,
+} from './types'
 
 export const useEditorStore = defineStore<
   'editorState',
@@ -21,12 +25,8 @@ export const useEditorStore = defineStore<
     },
   },
   actions: {
-    addComp(comp: Partial<TextComponentProps>) {
-      this.components.push({
-        id: uuid4(),
-        name: 'c-text',
-        props: cloneDeep(comp),
-      })
+    addComp(comp: ComponentData) {
+      this.components.push(comp)
     },
     deleteComp(compIds) {
       if (isString(compIds)) {

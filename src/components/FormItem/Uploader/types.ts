@@ -12,4 +12,7 @@ export interface FileItem<R = UploadResp> {
   status: UploadState
   row: File
   resp?: R
+  previewUrl?: string
 }
+
+export type BeforeUpload = (file: File) => boolean | Promise<File>

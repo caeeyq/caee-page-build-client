@@ -1,12 +1,14 @@
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { CommonComponentProps } from '@/components/BusinessComps/types'
 import { pick } from 'lodash-es'
-import { computed } from 'vue'
+import { computed, StyleValue } from 'vue'
 
 export default function useComponentCommon(
-  props: Readonly<Partial<TextComponentProps>>,
+  props: Readonly<Partial<CommonComponentProps>>,
   picks: string[]
 ) {
-  const styleProps = computed(() => pick(props, picks))
+  const styleProps = computed<StyleValue>(
+    () => pick(props, picks) as StyleValue
+  )
 
   const compClick = () => {
     if (props.actionType === 'url' && props.url) {

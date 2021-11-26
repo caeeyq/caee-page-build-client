@@ -1,14 +1,15 @@
 import { _ActionsTree, _GettersTree } from 'pinia'
 
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { ImageComponentProps } from '@/components/BusinessComps/CImage/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type KeyValue<T = any> = { key: string; value: T }
 
 export interface ComponentData {
   id: string
-  name: string
-  props: Partial<TextComponentProps>
+  name: 'c-text' | 'c-image'
+  props: Partial<TextComponentProps & ImageComponentProps>
 }
 
 export interface EditorState {
@@ -25,7 +26,7 @@ interface DeleteComp {
 
 export interface EditorActions extends _ActionsTree {
   /** 添加组件到编辑区域 */
-  addComp: (comp: Partial<TextComponentProps>) => void
+  addComp: (comp: ComponentData) => void
   /** 删除编辑区域指定组件 */
   deleteComp: DeleteComp
   /** 更新当前组件的值 */

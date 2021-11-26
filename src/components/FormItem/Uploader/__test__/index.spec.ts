@@ -79,7 +79,7 @@ describe('测试组件Uploader', () => {
     await wrapper.get('.caee-uploader__del-icon').trigger('click')
     expect(wrapper.findAll('li').length).toBe(1)
   })
-  it.only('4. slot插槽能正常工作', async () => {
+  it('4.slot插槽能正常工作', async () => {
     mockAxios.post.mockImplementationOnce(
       () =>
         new Promise((resolve) => {

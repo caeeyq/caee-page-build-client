@@ -4,30 +4,48 @@
       v-for="(comp, index) in compList"
       :key="index"
       class="show-comps-list__item-wrapper"
-      @click.capture.stop="$emit('addComp', comp)"
+      @click.capture.stop="addText(comp)"
     >
-      <CText v-bind="comp" />
+      <c-text v-bind="comp" />
     </div>
+    <Uploader action="http://caee-cli.edityj.top/upload" @success="addImage" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { CText } from '@/components'
+<script setup lang="ts">
+import { v4 as uuidv4 } from 'uuid'
+import { Uploader } from '@/components'
 import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-export default defineComponent({
-  name: 'show-comps-list',
-  components: { CText },
-  props: {
-    compList: {
-      type: Array as PropType<Partial<TextComponentProps>[]>,
-      default: () => [],
+import { UploadResp } from '@/components/FormItem/Uploader/types'
+import { ComponentData } from '@/store/editor/types'
+
+defineProps<{
+  compList: Partial<TextComponentProps>[]
+}>()
+
+const emits = defineEmits<{
+  (e: 'addComp', item: ComponentData): void
+}>()
+
+const addImage = (respData: UploadResp) => {
+  const resData: ComponentData = {
+    id: uuidv4(),
+    name: 'c-image',
+    props: {
+      src: respData.download_url,
+      width: '100%'
     },
-  },
-  emits: {
-    addComp: (item: Partial<TextComponentProps>) => item,
-  },
-})
+  }
+  emits('addComp', resData)
+}
+const addText = (textComp: Partial<TextComponentProps>) => {
+  const resData: ComponentData = {
+    id: uuidv4(),
+    name: 'c-text',
+    props: textComp,
+  }
+  emits('addComp', resData)
+}
 </script>
 
 <style lang="scss" scoped>

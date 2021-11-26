@@ -2,10 +2,6 @@
   <el-container class="editor-page">
     <el-aside class="editor-page__comp-side">
       <h2>组件列表</h2>
-      <Uploader
-        action="http://caee-cli.edityj.top/upload"
-        v-model:fileUrl="picUrl"
-      />
       <img v-if="picUrl" :src="picUrl" alt="" srcset="" />
       <ShowCompsList
         :compList="initComps"
@@ -38,49 +34,29 @@
   </el-container>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
 import { useEditorStore } from '@/store'
-import { CText, ShowCompsList, PropFormList, Uploader } from '@/components'
+import { ShowCompsList, PropFormList } from '@/components'
 import { initComps } from './initData'
 import { ComponentData, KeyValue } from '@/store/editor/types'
 
-export default defineComponent({
-  name: 'editor-page',
-  components: {
-    CText,
-    ShowCompsList,
-    PropFormList,
-    Uploader,
-  },
-  setup() {
-    const picUrl = ref('')
-    const editorStore = useEditorStore()
+const picUrl = ref('')
+const editorStore = useEditorStore()
 
-    const selectComp = (compId: string) => {
-      editorStore.currentElementId = compId
-    }
-    const getItemWrapperClass = (item: ComponentData) => {
-      return {
-        'editor-page__item-wrapper--active':
-          item.id === editorStore.currentElementId,
-      }
-    }
-    const handleChange = (e: KeyValue) => {
-      editorStore.updateCurrentComp(e)
-    }
-
-    return {
-      editorStore,
-      initComps,
-      selectComp,
-      getItemWrapperClass,
-      handleChange,
-      picUrl,
-    }
-  },
-})
+const selectComp = (compId: string) => {
+  editorStore.currentElementId = compId
+}
+const getItemWrapperClass = (item: ComponentData) => {
+  return {
+    'editor-page__item-wrapper--active':
+      item.id === editorStore.currentElementId,
+  }
+}
+const handleChange = (e: KeyValue) => {
+  editorStore.updateCurrentComp(e)
+}
 </script>
 
 <style scoped lang="scss">
@@ -113,6 +89,7 @@ export default defineComponent({
       background-color: #fff;
       width: 350px;
       height: 600px;
+      overflow-y: hidden;
       .editor-page__item-wrapper {
         cursor: pointer;
         transition: all 0.3s ease;

@@ -1,7 +1,7 @@
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { CommonComponentProps } from '@/components/BusinessComps/types'
 import { mapValues } from 'lodash-es'
 
-export function transformObjToProps(obj: TextComponentProps) {
+export function transformObjToProps<T extends CommonComponentProps>(obj: T) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return mapValues(obj, (value: any) => {
     return {
