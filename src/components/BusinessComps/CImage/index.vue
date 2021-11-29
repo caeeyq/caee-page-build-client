@@ -23,5 +23,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .c-image {
   position: relative !important;
+  vertical-align: middle;
 }
 </style>
