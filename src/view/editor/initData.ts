@@ -1,4 +1,4 @@
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { TextComponentProps } from '@caee/caee-page-build-components'
 
 export const initComps: Partial<TextComponentProps>[] = [
   {
@@ -9,8 +9,8 @@ export const initComps: Partial<TextComponentProps>[] = [
     textAlign: 'left',
     fontFamily: '"SimSun","STSong"',
     lineHeight: '1',
-    color: "#000000",
-    backgroundColor: "#FFFFFF"
+    color: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   {
     tag: 'h2',

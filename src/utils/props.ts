@@ -1,4 +1,4 @@
-import { CommonComponentProps } from '@/components/BusinessComps/types'
+import { CommonComponentProps } from '@caee/caee-page-build-components'
 import { mapValues } from 'lodash-es'
 
 export function transformObjToProps<T extends CommonComponentProps>(obj: T) {

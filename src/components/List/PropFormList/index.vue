@@ -18,7 +18,7 @@
               :is="formItem.subComponent"
               v-bind="option.extraProps"
             >
-              <RenderJsx :content="option.text" />
+              <render-jsx :content="option.text" />
             </component>
           </template>
         </component>
@@ -30,15 +30,13 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from 'vue'
 import { reduce } from 'lodash-es'
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { RenderJsx } from '@/components'
 import { propsFormMap, RealPropForm } from './propFormMap'
+import { AllComponentsProps } from '@caee/caee-page-build-components'
 export default defineComponent({
   name: 'prop-form',
-  components: { RenderJsx },
   props: {
     props: {
-      type: Object as PropType<Partial<TextComponentProps>>,
+      type: Object as PropType<Partial<AllComponentsProps>>,
     },
   },
   emits: ['change'],
@@ -47,7 +45,7 @@ export default defineComponent({
       return reduce(
         props.props,
         (res, curValue, key) => {
-          const newKey = key as keyof TextComponentProps
+          const newKey = key as keyof AllComponentsProps
           const formItem = propsFormMap[newKey]
           if (formItem) {
             const {
@@ -75,7 +73,7 @@ export default defineComponent({
           }
           return res
         },
-        {} as Record<keyof TextComponentProps, RealPropForm>
+        {} as Record<keyof AllComponentsProps, RealPropForm>
       )
     })
 

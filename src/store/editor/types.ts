@@ -1,7 +1,7 @@
 import { _ActionsTree, _GettersTree } from 'pinia'
 
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
-import { ImageComponentProps } from '@/components/BusinessComps/CImage/types'
+import { TextComponentProps } from '@caee/caee-page-build-components'
+import { ImageComponentProps } from '@caee/caee-page-build-components'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type KeyValue<T = any> = { key: string; value: T }

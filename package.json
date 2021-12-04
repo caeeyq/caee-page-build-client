@@ -13,6 +13,7 @@
     "lint": "eslint src/ --ext .ts,.vue,.tsx && vue-tsc --noEmit"
   },
   "dependencies": {
+    "@caee/caee-page-build-components": "^1.0.1",
     "axios": "^0.24.0",
     "element-plus": "^1.2.0-beta.2",
     "lodash-es": "^4.17.21",

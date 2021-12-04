@@ -2,8 +2,7 @@
 /**
  * 定义属性到form表单的转换基本信息
  */
-import { ImageComponentProps } from '@/components/BusinessComps/CImage/types'
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { AllComponentsProps } from '@caee/caee-page-build-components'
 import { VNode } from 'vue'
 
 export interface PropForm {
@@ -43,7 +42,7 @@ export interface RealPropForm extends PropForm {
 }
 
 export type PropsForms = {
-  [key in keyof TextComponentProps & ImageComponentProps]?: PropForm
+  [key in keyof AllComponentsProps]?: PropForm
 }
 
 const fontList = [

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
 import { Uploader } from '@/components'
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { TextComponentProps } from '@caee/caee-page-build-components'
 import { FileItem } from '@/components/FormItem/Uploader/types'
 import { ComponentData } from '@/store/editor/types'
 import { getImageDimensions } from '@/utils/file'

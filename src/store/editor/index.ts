@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { isString } from 'lodash'
 
-import { TextComponentProps } from '@/components/BusinessComps/CText/types'
+import { TextComponentProps } from '@caee/caee-page-build-components'
 import {
   ComponentData,
   EditorActions,
